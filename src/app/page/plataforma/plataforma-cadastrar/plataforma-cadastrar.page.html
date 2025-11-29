@@ -1,0 +1,53 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-title class="ion-text-center">
+      <b>Cadastrar Plataforma</b>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <!-- <div *ngIf="logoUrl" class="apresentar-logomarca-plataforma">
+    <ion-avatar>
+      <img [src]="logoUrl" (error)="logoUrl = null" alt="Logomarca da plataforma" />
+    </ion-avatar>
+  </div> -->
+
+  <div
+    (click)="cadastrarLogomarca()"
+    *ngIf="plataformaCadastrarFormulario.get('nome')?.value != null && plataformaCadastrarFormulario.get('nome')?.value.trim() !== ''" 
+    class="logomarca-plataforma">
+    <ion-icon name="cloud-upload-outline"></ion-icon>
+    <h3>Upload da Imagem</h3>
+  </div>
+
+  <form [formGroup]="plataformaCadastrarFormulario" (ngSubmit)="salvar()">
+
+    <div class="form-input">
+      <ion-label
+        [ngClass]="focusedField === 'nome' || plataformaCadastrarFormulario.get('nome')?.value ? 'label-focused' : ''">
+        Nome da Plataforma
+      </ion-label>
+      <input type="text" (focus)="focusedField = 'nome'" (blur)="focusedField = ''" formControlName="nome" />
+    </div>
+
+    <div class="form-input">
+      <ion-label
+        [ngClass]="focusedField === 'endereco' || plataformaCadastrarFormulario.get('endereco')?.value ? 'label-focused' : ''">
+        Endereço da Plataforma
+      </ion-label>
+      <input type="text" (focus)="focusedField = 'endereco'" (blur)="focusedField = ''" formControlName="endereco" />
+    </div>
+
+    <div class="form-input">
+      <ion-button type="submit" expand="block" class="botao-primario">
+        <ion-icon name="person-add-outline"></ion-icon>
+        Cadastrar
+      </ion-button>
+      <ion-button type="submit" expand="block" fill="outline" class="botao-secundario">Cancelar</ion-button>
+    </div>
+
+  </form>
+
+</ion-content>

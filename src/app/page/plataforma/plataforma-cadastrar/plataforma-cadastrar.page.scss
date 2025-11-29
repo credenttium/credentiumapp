@@ -1,0 +1,126 @@
+ion-content {
+    .apresentar-logomarca-plataforma {
+        border: dashed red 2px;
+        position: relative;
+        width: 90px;
+        height: 90px;
+        border-radius: 50%;
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        img {
+            padding: 5px;
+            width: 82px;
+            height: 82px;
+        }
+    }
+
+    .logomarca-plataforma {
+        position: relative;
+        // background: #f2f2f2;
+        background: #fcfcfc;
+        width: 50%;
+        height: 80px;
+        margin: 0 auto;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        transition: all 0.3s;
+
+        ion-icon {
+            position: absolute;
+            top: 0.3rem;
+            font-size: 45px;
+            color: #999999;
+            // border: dashed red 2px;
+        }
+
+        h3 {
+            font-size: 14px;
+            position: absolute;
+            bottom: 2px;
+        }
+    }
+
+    .logomarca-plataforma:hover {
+        border: dashed #576ffa 1px;
+        cursor: pointer;
+    }
+
+    form {
+        margin-top: 1rem;
+        padding: 0.3rem;
+
+        .form-input {
+            position: relative;
+            margin-bottom: 1rem;
+            height: 50px;
+
+            ion-label {
+                position: absolute;
+                left: 1rem;
+                top: 1rem;
+                padding: 0 0.25rem;
+                font-size: 1rem;
+                color: #6e6e6e;
+                transition: 0.3s;
+            }
+
+            input {
+                position: absolute;
+                top: 1;
+                left: 0;
+                height: 100%;
+                width: 100%;
+                font-size: 15px;
+                font-weight: bold;
+                border: solid #e7ebee 2px;
+                border-radius: 10px;
+                outline: none;
+                padding-left: 1rem;
+                padding-top: 0.4rem;
+                background: none;
+                color: #171c25;
+                transition: 0.3s;
+                z-index: 1;
+            }
+
+            input:focus {
+                border-color: #576ffa;
+            }
+
+            .label-focused {
+                top: -0.4rem;
+                left: 0.8rem;
+                font-size: 14px;
+                font-weight: bold;
+                background-color: #ffffff;
+                z-index: 10;
+            }
+
+            ion-button {
+                --box-shadow: none;
+                --border-radius: 10px;
+                height: 40px;
+                font-size: 0.9rem;
+                margin-bottom: 0.5rem;
+            }
+
+            ion-button.botao-primario {
+                --background: linear-gradient(90deg,
+                        rgb(87, 177, 250) 0%,
+                        rgb(142, 163, 254) 100%);
+                color: #fff;
+            }
+
+            ion-button.botao-secundario {
+                color: #123681;
+            }
+
+        }
+    }
+}

@@ -1,0 +1,33 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>credencial</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-list>
+    <ion-item-sliding *ngFor="let credencial of credencialArray">
+      <ion-item button (click)="redirecionarTelaCredencialDetalhar(credencial.code)">
+        <ion-avatar slot="start">
+          <img [src]="'https://logo.clearbit.com/' + credencial.dominio" alt="{{ credencial.descricao }} logo">
+        </ion-avatar>
+        <ion-label>
+          <h2>{{ credencial.descricao }}</h2>
+          <p>{{ credencial.usuario }}</p>
+        </ion-label>
+      </ion-item>
+
+      <ion-item-options side="end">
+        <ion-item-option color="primary" (click)="editarCredencial(credencial.code)">
+          <ion-icon name="create-outline"></ion-icon>
+        </ion-item-option>
+        <ion-item-option color="danger" (click)="excluirCredencial(credencial.code)">
+          <ion-icon name="trash-outline"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+      
+    </ion-item-sliding>
+  </ion-list>
+
+</ion-content>

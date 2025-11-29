@@ -1,0 +1,50 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="ion-text-center">Adicionar Credencial</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-card>
+
+    <form [formGroup]="credencialCadastrarFormulario" (ngSubmit)="salvar()">
+
+      <ion-item>
+        <ion-label position="stacked">Conta</ion-label>
+        <ion-select formControlName="id_pessoa" placeholder="Selecione uma Conta" (ionChange)="atualizarDescricao($event)">
+          <ion-select-option *ngFor="let conta of contaArray" [value]="conta.code">
+            {{ conta.nome }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Descrição</ion-label>
+        <ion-input formControlName="descricao" placeholder="ex: Conta do Google, Netflix"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Nome de Usuário</ion-label>
+        <ion-input formControlName="usuario" placeholder="email@exemplo.com ou nome de usuário"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Senha</ion-label>
+        <ion-input type="password" formControlName="senha" placeholder="Insira ou gere uma senha forte"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Link</ion-label>
+        <ion-input formControlName="link" placeholder="ex: www.google.com"></ion-input>
+      </ion-item>
+
+      <ion-button expand="block" type="submit" color="primary" class="ion-margin-top">
+        Salvar
+      </ion-button>
+
+    </form>
+
+  </ion-card>
+
+</ion-content>
