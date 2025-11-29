@@ -60,16 +60,11 @@ export class PlataformaCadastrarPage implements OnInit {
     if (this.logoUrl) {
       if (this.logoUrl.startsWith("data:image")) {
         const blob = this.base64ToBlob(this.logoUrl);
-        formData.append("logo", blob, "logomarca.jpeg");
+        formData.append("logomarca", blob, "logomarca.jpeg");
       } else {
         formData.append("logoUrl", this.logoUrl);
       }
     }
-
-    // if (this.logoUrl) {
-    //   const blob = this.base64ToBlob(this.logoUrl);
-    //   formData.append("logo", blob, "logomarca.jpeg");
-    // }
 
     this.plataformaService.create(formData).subscribe({
       next: (response) => {
