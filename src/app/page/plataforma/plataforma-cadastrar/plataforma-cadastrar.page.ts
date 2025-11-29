@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { IonButton, IonContent, IonHeader, IonTitle, IonToolbar, IonLabel, IonIcon, IonInput, IonAvatar, IonCardTitle } from '@ionic/angular/standalone';
-import { addIcons } from "ionicons";
-import { personAddOutline, cloudUploadOutline, cameraOutline } from 'ionicons/icons';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
-import { Filesystem, Directory } from '@capacitor/filesystem';
+import { Directory, Filesystem } from '@capacitor/filesystem';
+import { IonAvatar, IonButton, IonCardTitle, IonContent, IonHeader, IonIcon, IonInput, IonLabel, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { addIcons } from "ionicons";
+import { cameraOutline, cloudUploadOutline, personAddOutline } from 'ionicons/icons';
+import { PlataformaService } from 'src/app/service/plataforma.service';
 
 @Component({
   selector: 'app-plataforma-cadastrar',
@@ -30,12 +31,14 @@ export class PlataformaCadastrarPage implements OnInit {
 
   public logoLocalPath: string | null = null;
 
+  private plataformaService = inject(PlataformaService);
+
   constructor() {
     this.plataformaCadastrarFormulario = this.formBuilder.group({
       nome: ["", Validators.required],
-      endereco: ["", Validators.required],
+      url: ["", Validators.required],
     });
-    addIcons({cameraOutline,cloudUploadOutline,personAddOutline});
+    addIcons({ cameraOutline, cloudUploadOutline, personAddOutline });
   }
 
   ngOnInit() {
@@ -45,9 +48,48 @@ export class PlataformaCadastrarPage implements OnInit {
     });
   }
 
-  public async salvar() {
+  public async create() {
     console.log(this.plataformaCadastrarFormulario.value);
-    if (this.plataformaCadastrarFormulario.valid) { }
+    if (!this.plataformaCadastrarFormulario.valid) {
+      return;
+    }
+    const formData = new FormData();
+    formData.append("nome", this.plataformaCadastrarFormulario.value.nome);
+    formData.append("url", this.plataformaCadastrarFormulario.value.url);
+
+    if (this.logoUrl) {
+      if (this.logoUrl.startsWith("data:image")) {
+        const blob = this.base64ToBlob(this.logoUrl);
+        formData.append("logo", blob, "logomarca.jpeg");
+      } else {
+        formData.append("logoUrl", this.logoUrl);
+      }
+    }
+
+    // if (this.logoUrl) {
+    //   const blob = this.base64ToBlob(this.logoUrl);
+    //   formData.append("logo", blob, "logomarca.jpeg");
+    // }
+
+    this.plataformaService.create(formData).subscribe({
+      next: (response) => {
+        console.log("Salvo com sucesso:", response);
+      },
+      error: (error) => {
+        console.error("Erro ao salvar:", error);
+      }
+    });
+
+  }
+
+  private base64ToBlob(base64: string): Blob {
+    const byteString = atob(base64.split(',')[1]);
+    const arrayBuffer = new ArrayBuffer(byteString.length);
+    const int8Array = new Uint8Array(arrayBuffer);
+    for (let i = 0; i < byteString.length; i++) {
+      int8Array[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([int8Array], { type: 'image/jpeg' });
   }
 
   public carregarLogoPelaPlataforma(nome: string) {
@@ -84,6 +126,5 @@ export class PlataformaCadastrarPage implements OnInit {
       console.log("Erro ao escolher imagem:", error);
     }
   }
-
 
 }

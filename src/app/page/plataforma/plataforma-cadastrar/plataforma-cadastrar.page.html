@@ -20,7 +20,7 @@
     <ion-icon name="camera-outline"></ion-icon>
   </div>
 
-  <form [formGroup]="plataformaCadastrarFormulario" (ngSubmit)="salvar()">
+  <form [formGroup]="plataformaCadastrarFormulario" (ngSubmit)="create()">
 
     <div class="form-input">
       <ion-label
@@ -32,10 +32,10 @@
 
     <div class="form-input">
       <ion-label
-        [ngClass]="focusedField === 'endereco' || plataformaCadastrarFormulario.get('endereco')?.value ? 'label-focused' : ''">
+        [ngClass]="focusedField === 'url' || plataformaCadastrarFormulario.get('url')?.value ? 'label-focused' : ''">
         Endereço da Plataforma
       </ion-label>
-      <input type="text" (focus)="focusedField = 'endereco'" (blur)="focusedField = ''" formControlName="endereco" />
+      <input type="text" (focus)="focusedField = 'url'" (blur)="focusedField = ''" formControlName="url" />
     </div>
 
     <!-- <div (click)="cadastrarLogomarca()" class="logomarca-plataforma">

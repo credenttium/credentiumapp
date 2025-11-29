@@ -26,4 +26,8 @@ export const routes: Routes = [
     path: 'plataforma-cadastrar',
     loadComponent: () => import('./page/plataforma/plataforma-cadastrar/plataforma-cadastrar.page').then( m => m.PlataformaCadastrarPage)
   },
+  {
+    path: 'plataforma-detalhar',
+    loadComponent: () => import('./page/plataforma/plataforma-detalhar/plataforma-detalhar.page').then( m => m.PlataformaDetalharPage)
+  },
 ];
