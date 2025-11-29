@@ -3,7 +3,9 @@ import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IonButton, IonContent, IonHeader, IonTitle, IonToolbar, IonLabel, IonIcon, IonInput, IonAvatar, IonCardTitle } from '@ionic/angular/standalone';
 import { addIcons } from "ionicons";
-import { personAddOutline, cloudUploadOutline } from 'ionicons/icons';
+import { personAddOutline, cloudUploadOutline, cameraOutline } from 'ionicons/icons';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import { Filesystem, Directory } from '@capacitor/filesystem';
 
 @Component({
   selector: 'app-plataforma-cadastrar',
@@ -26,12 +28,14 @@ export class PlataformaCadastrarPage implements OnInit {
 
   public logoUrl: string | null = null;
 
+  public logoLocalPath: string | null = null;
+
   constructor() {
     this.plataformaCadastrarFormulario = this.formBuilder.group({
       nome: ["", Validators.required],
       endereco: ["", Validators.required],
     });
-    addIcons({ cloudUploadOutline, personAddOutline });
+    addIcons({cameraOutline,cloudUploadOutline,personAddOutline});
   }
 
   ngOnInit() {
@@ -55,6 +59,31 @@ export class PlataformaCadastrarPage implements OnInit {
     this.logoUrl = `https://logo.clearbit.com/${dominio}`;
   }
 
-  public cadastrarLogomarca() {}
+  public async cadastrarLogomarca() {
+    try {
+      const foto = await Camera.getPhoto({
+        quality: 90,
+        allowEditing: false,
+        resultType: CameraResultType.DataUrl,
+        source: CameraSource.Photos
+      });
+
+      this.logoUrl = foto.dataUrl ?? null;
+
+      const nomeArquivo = `plataforma_${Date.now()}.jpeg`;
+
+      await Filesystem.writeFile({
+        path: nomeArquivo,
+        data: foto.dataUrl!,
+        directory: Directory.Data
+      });
+
+      this.logoLocalPath = nomeArquivo;
+
+    } catch (error) {
+      console.log("Erro ao escolher imagem:", error);
+    }
+  }
+
 
 }

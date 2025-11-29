@@ -14,12 +14,10 @@
     </ion-avatar>
   </div> -->
 
-  <div
-    (click)="cadastrarLogomarca()"
-    *ngIf="plataformaCadastrarFormulario.get('nome')?.value != null && plataformaCadastrarFormulario.get('nome')?.value.trim() !== ''" 
-    class="logomarca-plataforma">
-    <ion-icon name="cloud-upload-outline"></ion-icon>
-    <h3>Upload da Imagem</h3>
+  <div *ngIf="true" (click)="cadastrarLogomarca()" class="apresentar-logomarca-plataforma">
+    <img [src]="logoUrl" alt="Logomarca" *ngIf="logoUrl"/>
+    <img src="../../../../assets/profile.png" alt="Logomarca" *ngIf="!logoUrl"/>
+    <ion-icon name="camera-outline"></ion-icon>
   </div>
 
   <form [formGroup]="plataformaCadastrarFormulario" (ngSubmit)="salvar()">
@@ -39,6 +37,11 @@
       </ion-label>
       <input type="text" (focus)="focusedField = 'endereco'" (blur)="focusedField = ''" formControlName="endereco" />
     </div>
+
+    <!-- <div (click)="cadastrarLogomarca()" class="logomarca-plataforma">
+      <ion-icon name="cloud-upload-outline"></ion-icon>
+      <h3>Upload da Imagem</h3>
+    </div> -->
 
     <div class="form-input">
       <ion-button type="submit" expand="block" class="botao-primario">
