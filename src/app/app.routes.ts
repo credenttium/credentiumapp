@@ -30,4 +30,8 @@ export const routes: Routes = [
     path: 'plataforma-detalhar',
     loadComponent: () => import('./page/plataforma/plataforma-detalhar/plataforma-detalhar.page').then( m => m.PlataformaDetalharPage)
   },
+  {
+    path: 'plataforma',
+    loadComponent: () => import('./page/plataforma/plataforma.page').then( m => m.PlataformaPage)
+  },
 ];

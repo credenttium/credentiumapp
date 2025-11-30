@@ -3,7 +3,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { Directory, Filesystem } from '@capacitor/filesystem';
-import { IonAvatar, IonButton, IonCardTitle, IonContent, IonHeader, IonIcon, IonInput, IonLabel, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { IonAvatar, IonButton, IonCardTitle, IonContent, IonHeader, IonIcon, IonInput, IonLabel, IonTitle, IonToolbar, ToastController, LoadingController } from '@ionic/angular/standalone';
 import { addIcons } from "ionicons";
 import { cameraOutline, cloudUploadOutline, personAddOutline } from 'ionicons/icons';
 import { PlataformaService } from 'src/app/service/plataforma.service';
@@ -33,10 +33,14 @@ export class PlataformaCadastrarPage implements OnInit {
 
   private plataformaService = inject(PlataformaService);
 
+  private toastController = inject(ToastController);
+
+  private loadingController = inject(LoadingController);
+
   constructor() {
     this.plataformaCadastrarFormulario = this.formBuilder.group({
       nome: ["", Validators.required],
-      url: ["", Validators.required],
+      url: [""],
     });
     addIcons({ cameraOutline, cloudUploadOutline, personAddOutline });
   }
@@ -62,15 +66,24 @@ export class PlataformaCadastrarPage implements OnInit {
         const blob = this.base64ToBlob(this.logoUrl);
         formData.append("logomarca", blob, "logomarca.jpeg");
       } else {
-        formData.append("logoUrl", this.logoUrl);
+        const blob = await this.urlToBlob(this.logoUrl);
+        formData.append("logomarca", blob, "logomarca.jpeg");
       }
     }
+
+    this.apresentarCarregamentoOperacaoCreate();
 
     this.plataformaService.create(formData).subscribe({
       next: (response) => {
         console.log("Salvo com sucesso:", response);
+        this.loadingController.dismiss();
+        this.apresentarMensagemSucesso();
+        this.plataformaCadastrarFormulario.reset();
+        this.logoUrl = null;
       },
       error: (error) => {
+        this.apresentarMensagemErro();
+        this.loadingController.dismiss();
         console.error("Erro ao salvar:", error);
       }
     });
@@ -85,6 +98,13 @@ export class PlataformaCadastrarPage implements OnInit {
       int8Array[i] = byteString.charCodeAt(i);
     }
     return new Blob([int8Array], { type: 'image/jpeg' });
+  }
+
+  private async urlToBlob(imageUrl: string): Promise<Blob> {
+    const response = await fetch(imageUrl);
+    const contentType = response.headers.get("content-type") || "image/png";
+    const buffer = await response.arrayBuffer();
+    return new Blob([buffer], { type: contentType });
   }
 
   public carregarLogoPelaPlataforma(nome: string) {
@@ -120,6 +140,34 @@ export class PlataformaCadastrarPage implements OnInit {
     } catch (error) {
       console.log("Erro ao escolher imagem:", error);
     }
+  }
+
+  private async apresentarMensagemErro() {
+    const toast = await this.toastController.create({
+      message: 'Falha ao tentar cadastrar a plataforma!',
+      duration: 2500,
+      position: "bottom",
+      color: "warning"
+    });
+    return toast.present();
+  }
+
+  private async apresentarMensagemSucesso() {
+    const toast = await this.toastController.create({
+      message: 'Dados cadastrados com Sucesso!',
+      duration: 2500,
+      position: "bottom",
+      color: "success"
+    });
+    return toast.present();
+  }
+
+  private async apresentarCarregamentoOperacaoCreate() {
+    const loading = await this.loadingController.create({
+      message: 'Processando dados...',
+      duration: 3000,
+    });
+    loading.present();
   }
 
 }
