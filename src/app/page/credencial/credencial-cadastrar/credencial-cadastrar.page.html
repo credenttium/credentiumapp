@@ -12,9 +12,13 @@
 
       <ion-item>
         <ion-label position="stacked">Conta</ion-label>
-        <ion-select formControlName="id_pessoa" placeholder="Selecione uma Conta" (ionChange)="atualizarDescricao($event)">
+        <ion-select formControlName="id_pessoa" placeholder="Selecione uma Conta"
+          (ionChange)="atualizarDescricao($event)">
           <ion-select-option *ngFor="let plataforma of plataformaArray" [value]="plataforma.code">
             {{ plataforma.nome }}
+          </ion-select-option>
+          <ion-select-option value="new">
+            Cadastrar nova plataforma
           </ion-select-option>
         </ion-select>
       </ion-item>

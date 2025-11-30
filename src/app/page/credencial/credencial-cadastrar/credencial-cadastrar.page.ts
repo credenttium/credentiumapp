@@ -2,11 +2,10 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { IonButton, IonCard, IonContent, IonHeader, IonInput, IonItem, IonLabel, IonSelect, IonSelectOption, IonTitle, IonToolbar, ToastController } from '@ionic/angular/standalone';
-import { CredencialModel } from 'src/app/model/credencial.model';
+import { IonButton, IonCard, IonContent, IonHeader, IonInput, IonItem, IonLabel, IonSelect, IonSelectOption, IonTitle, IonToolbar, ToastController, ModalController } from '@ionic/angular/standalone';
 import { CredencialService } from 'src/app/service/credencial.service';
 import { PlataformaService } from 'src/app/service/plataforma.service';
-import { SupabaseService } from 'src/app/service/supabase.service';
+import { PlataformaCadastrarPage } from '../../plataforma/plataforma-cadastrar/plataforma-cadastrar.page';
 
 @Component({
   selector: 'app-credencial-cadastrar',
@@ -35,6 +34,8 @@ export class CredencialCadastrarPage implements OnInit {
   private plataformaService = inject(PlataformaService);
 
   private credencialService = inject(CredencialService);
+
+  private modalController = inject(ModalController);
 
   ngOnInit() {
     this.recuperarPlataforma();
@@ -116,6 +117,15 @@ export class CredencialCadastrarPage implements OnInit {
         descricao: `Conta ${contaSelecionada.nome}`
       });
     }
+
+    const value = event.detail.value;
+
+    if (value === "new") {
+      this.abrirModalPlataformaCadastrar();
+      this.credencialCadastrarFormulario.get('id_pessoa')?.setValue(null);
+      return;
+    }
+
   }
 
   private async apresentarMensagemSucesso() {
@@ -134,6 +144,28 @@ export class CredencialCadastrarPage implements OnInit {
 
   private redirecionarTelaCredencialDetalhar() {
     this.router.navigate(["/credencial"]);
+  }
+
+  public async abrirModalPlataformaCadastrar() {
+
+    const modal = await this.modalController.create({
+      component: PlataformaCadastrarPage,
+      breakpoints: [0, 0.25, 0.5, 0.75, 0.85, 0.90, 1],
+      initialBreakpoint: 0.92,
+      backdropBreakpoint: 0.85
+    });
+
+    modal.present();
+
+    const { data, role } = await modal.onWillDismiss();
+
+    if (data) {
+      this.plataformaArray.push(data);
+      this.credencialCadastrarFormulario.patchValue({
+        id_pessoa: data.code,
+        descricao: `Conta ${data.nome}`
+      });
+    }
   }
 
 }

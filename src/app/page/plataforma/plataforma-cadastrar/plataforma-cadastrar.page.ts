@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { Router } from '@angular/router';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { Directory, Filesystem } from '@capacitor/filesystem';
-import { IonAvatar, IonButton, IonCardTitle, IonContent, IonHeader, IonIcon, IonInput, IonLabel, IonTitle, IonToolbar, ToastController, LoadingController } from '@ionic/angular/standalone';
+import { IonAvatar, IonButton, IonCardTitle, IonContent, IonHeader, IonIcon, IonInput, IonLabel, IonTitle, IonToolbar, LoadingController, ToastController, ModalController } from '@ionic/angular/standalone';
 import { addIcons } from "ionicons";
 import { cameraOutline, cloudUploadOutline, personAddOutline } from 'ionicons/icons';
 import { PlataformaService } from 'src/app/service/plataforma.service';
@@ -39,6 +39,8 @@ export class PlataformaCadastrarPage implements OnInit {
   private loadingController = inject(LoadingController);
 
   private router = inject(Router);
+
+  private modalController = inject(ModalController);
 
   constructor() {
     this.plataformaCadastrarFormulario = this.formBuilder.group({
@@ -85,6 +87,7 @@ export class PlataformaCadastrarPage implements OnInit {
         this.logoUrl = null;
         // this.redirecionarTelaPlataforma();
         this.redirecionarTelaCredencialCadastrar();
+        this.modalController.dismiss(response);
       },
       error: (error) => {
         this.apresentarMensagemErro();
