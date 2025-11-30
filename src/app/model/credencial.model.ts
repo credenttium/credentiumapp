@@ -1,6 +1,8 @@
+import { PlataformaModel } from "./plataforma.model";
+
 export interface CredencialModel {
   code?: number;
-  id_pessoa?: number;
+  plataforma?: PlataformaModel;
   descricao: string;
   usuario: string;
   senha: string;

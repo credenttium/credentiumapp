@@ -1,9 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { IonCard, IonContent, IonHeader, IonInput, IonItem, IonLabel, IonTitle, IonToolbar, IonButton, IonSelect, IonSelectOption, ToastController } from '@ionic/angular/standalone';
+import { IonButton, IonCard, IonContent, IonHeader, IonInput, IonItem, IonLabel, IonSelect, IonSelectOption, IonTitle, IonToolbar, ToastController } from '@ionic/angular/standalone';
 import { CredencialModel } from 'src/app/model/credencial.model';
+import { CredencialService } from 'src/app/service/credencial.service';
+import { PlataformaService } from 'src/app/service/plataforma.service';
 import { SupabaseService } from 'src/app/service/supabase.service';
 
 @Component({
@@ -22,46 +24,93 @@ export class CredencialCadastrarPage implements OnInit {
 
   public contaArray: any[] = [];
 
-  private supabaseService = inject(SupabaseService);
+  public plataformaArray: any[] = [];
+
+  // private supabaseService = inject(SupabaseService);
 
   private toastController = inject(ToastController);
 
   private router = inject(Router);
 
+  private plataformaService = inject(PlataformaService);
+
+  private credencialService = inject(CredencialService);
+
   ngOnInit() {
-    this.recuperarContas();
+    this.recuperarPlataforma();
   }
 
   constructor(private formBuilder: FormBuilder) {
     this.credencialCadastrarFormulario = this.formBuilder.group({
-      id_pessoa: ['2', Validators.required],
-      descricao: ['Conta Netflix', Validators.required],
-      usuario: ['email@email.com', [Validators.required, Validators.email]],
-      senha: ['senha-forte', [Validators.required, Validators.minLength(6)]],
-      link: ['https://...'],
+      id_pessoa: ['', Validators.required],
+      descricao: ['', Validators.required],
+      usuario: ['', [Validators.required, Validators.email]],
+      senha: ['', [Validators.required, Validators.minLength(6)]],
+      link: [''],
     });
   }
 
-  public async recuperarContas() {
-    this.contaArray = await this.supabaseService.recuperarContas();
+  // public async recuperarContas() {
+  //   this.contaArray = await this.supabaseService.recuperarContas();
+  // }
+
+  public recuperarPlataforma() {
+    this.plataformaService.recuperarPlataforma().subscribe({
+      next: (response) => {
+        this.plataformaArray = response;
+      },
+      error: (error) => { }
+    });
   }
 
-  public async salvar() {
-    if (this.credencialCadastrarFormulario.valid) {
-      const credencialModel: CredencialModel = this.credencialCadastrarFormulario.getRawValue();
-      credencialModel.id_pessoa = this.credencialCadastrarFormulario.get('id_pessoa')?.value;
-      const data = await this.supabaseService.create(credencialModel);
-      this.apresentarMensagemSucesso();
-      this.limparFormulario();
-      this.redirecionarTelaCredencialDetalhar();
-    } else {
-      console.log('Formulário inválido');
+  // public async salvar() {
+  //   if (this.credencialCadastrarFormulario.valid) {
+  //     const credencialModel: CredencialModel = this.credencialCadastrarFormulario.getRawValue();
+  //     credencialModel.id_pessoa = this.credencialCadastrarFormulario.get('id_pessoa')?.value;
+  //     const data = await this.supabaseService.create(credencialModel);
+  //     this.apresentarMensagemSucesso();
+  //     this.limparFormulario();
+  //     this.redirecionarTelaCredencialDetalhar();
+  //   } else {
+  //     console.log('Formulário inválido');
+  //   }
+  // }
+
+  public cadastrarCredencial() {
+
+    if (!this.credencialCadastrarFormulario.valid) {
+      return;
     }
+
+    const credencialFormulario = this.credencialCadastrarFormulario.value;
+
+    const credencialModel = {
+      descricao: credencialFormulario.descricao,
+      usuario: credencialFormulario.usuario,
+      senha: credencialFormulario.senha,
+      link: credencialFormulario.link,
+      plataforma: { code: credencialFormulario.id_pessoa }
+    };
+
+    // const credencialModel: CredencialModel = this.credencialCadastrarFormulario.value as CredencialModel;
+
+    console.log(credencialModel);
+
+    this.credencialService.cadastrarCredencial(credencialModel).subscribe({
+      next: (response: any) => {
+        this.apresentarMensagemSucesso();
+        this.limparFormulario();
+        this.redirecionarTelaCredencialDetalhar();
+      },
+      error: (responseError) => {
+        console.error("FALHA: Errro ao tentar cadastrar a credencial!");
+      }
+    });
   }
 
   public atualizarDescricao(event: any) {
     const idSelecionado = event.detail.value;
-    const contaSelecionada = this.contaArray.find(conta => conta.code === idSelecionado);
+    const contaSelecionada = this.plataformaArray.find(plataforma => plataforma.code === idSelecionado);
     if (contaSelecionada) {
       this.credencialCadastrarFormulario.patchValue({
         descricao: `Conta ${contaSelecionada.nome}`

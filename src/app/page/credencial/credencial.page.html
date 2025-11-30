@@ -9,9 +9,11 @@
   <ion-list>
     <ion-item-sliding *ngFor="let credencial of credencialArray">
       <ion-item button (click)="redirecionarTelaCredencialDetalhar(credencial.code)">
+
         <ion-avatar slot="start">
-          <img [src]="'https://logo.clearbit.com/' + credencial.dominio" alt="{{ credencial.descricao }} logo">
+          <img [src]="'data:image/png;base64,' + credencial.plataforma.logomarca" alt="{{ credencial.descricao }} logo">
         </ion-avatar>
+
         <ion-label>
           <h2>{{ credencial.descricao }}</h2>
           <p>{{ credencial.usuario }}</p>
@@ -26,8 +28,14 @@
           <ion-icon name="trash-outline"></ion-icon>
         </ion-item-option>
       </ion-item-options>
-      
+
     </ion-item-sliding>
   </ion-list>
 
 </ion-content>
+
+<ion-fab slot="fixed" vertical="bottom" horizontal="end">
+  <ion-fab-button (click)="redirecionarTelaCadastrarCredencial()">
+    <ion-icon name="add"></ion-icon>
+  </ion-fab-button>
+</ion-fab>

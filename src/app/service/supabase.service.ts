@@ -8,6 +8,7 @@ import { CredencialModel } from '../model/credencial.model';
 })
 export class SupabaseService {
 
+  /*
   private supabaseClient: SupabaseClient;
 
   constructor() {
@@ -66,5 +67,6 @@ export class SupabaseService {
     }
     return data;
   }
+  */
 
 }

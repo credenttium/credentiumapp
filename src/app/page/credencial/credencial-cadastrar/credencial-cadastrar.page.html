@@ -8,13 +8,13 @@
 
   <ion-card>
 
-    <form [formGroup]="credencialCadastrarFormulario" (ngSubmit)="salvar()">
+    <form [formGroup]="credencialCadastrarFormulario" (ngSubmit)="cadastrarCredencial()">
 
       <ion-item>
         <ion-label position="stacked">Conta</ion-label>
         <ion-select formControlName="id_pessoa" placeholder="Selecione uma Conta" (ionChange)="atualizarDescricao($event)">
-          <ion-select-option *ngFor="let conta of contaArray" [value]="conta.code">
-            {{ conta.nome }}
+          <ion-select-option *ngFor="let plataforma of plataformaArray" [value]="plataforma.code">
+            {{ plataforma.nome }}
           </ion-select-option>
         </ion-select>
       </ion-item>

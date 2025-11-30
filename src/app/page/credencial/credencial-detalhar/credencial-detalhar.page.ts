@@ -3,7 +3,6 @@ import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
-import { CredencialModel } from './../../../model/credencial.model';
 import { SupabaseService } from './../../../service/supabase.service';
 
 @Component({
@@ -27,12 +26,12 @@ export class CredencialDetalharPage implements OnInit {
 
   ngOnInit() {
     this.codigoCredencial = Number(this.route.snapshot.paramMap.get('codigo'));
-    this.carregarCredencial();
+    // this.carregarCredencial();
   }
 
-  public async carregarCredencial() {
-    this.credencialModel = await this.supabaseService.buscarPorId(this.codigoCredencial);
-    console.log(this.credencialModel);
-  }
+  // public async carregarCredencial() {
+  //   this.credencialModel = await this.supabaseService.buscarPorId(this.codigoCredencial);
+  //   console.log(this.credencialModel);
+  // }
 
 }

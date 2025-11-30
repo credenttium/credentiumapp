@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { Directory, Filesystem } from '@capacitor/filesystem';
 import { IonAvatar, IonButton, IonCardTitle, IonContent, IonHeader, IonIcon, IonInput, IonLabel, IonTitle, IonToolbar, ToastController, LoadingController } from '@ionic/angular/standalone';
@@ -36,6 +37,8 @@ export class PlataformaCadastrarPage implements OnInit {
   private toastController = inject(ToastController);
 
   private loadingController = inject(LoadingController);
+
+  private router = inject(Router);
 
   constructor() {
     this.plataformaCadastrarFormulario = this.formBuilder.group({
@@ -80,6 +83,8 @@ export class PlataformaCadastrarPage implements OnInit {
         this.apresentarMensagemSucesso();
         this.plataformaCadastrarFormulario.reset();
         this.logoUrl = null;
+        // this.redirecionarTelaPlataforma();
+        this.redirecionarTelaCredencialCadastrar();
       },
       error: (error) => {
         this.apresentarMensagemErro();
@@ -168,6 +173,14 @@ export class PlataformaCadastrarPage implements OnInit {
       duration: 3000,
     });
     loading.present();
+  }
+
+  private redirecionarTelaPlataforma() {
+    this.router.navigate(["/plataforma"]);
+  }
+
+  private redirecionarTelaCredencialCadastrar() {
+    this.router.navigate(["/credencial-cadastrar"]);
   }
 
 }

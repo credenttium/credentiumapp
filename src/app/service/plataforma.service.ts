@@ -15,5 +15,9 @@ export class PlataformaService {
   public create(plataformaFormData: FormData): Observable<any> {
     return this.httpClient.post(this.url_api, plataformaFormData);
   }
+
+  public recuperarPlataforma(): Observable<any[]> {
+    return this.httpClient.get<any[]>(this.url_api);
+  }
   
 }
