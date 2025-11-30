@@ -1,18 +1,17 @@
 ion-content {
     .apresentar-logomarca-plataforma {
         position: relative;
-        width: 90px;
-        height: 90px;
+        width: 96px;
+        height: 96px;
         border-radius: 50%;
         margin: 0 auto;
         display: flex;
         justify-content: center;
         align-items: center;
         background: #ebebeb;
-        img {
-            padding: 5px;
-            width: 82px;
-            height: 82px;
+        ion-avatar {
+            width: 80px;
+            height: 80px;
         }
         ion-icon {
             position: absolute;
@@ -25,7 +24,7 @@ ion-content {
             border-radius: 50%;
             padding: 0.3rem;
             border: dashed 2px #cccccc;
-            transition: all 0.5s;
+            transition: all 0.3s;
         }
         ion-icon:hover {
             background: #cccccc;

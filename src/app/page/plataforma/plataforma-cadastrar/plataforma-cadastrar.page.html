@@ -15,8 +15,10 @@
   </div> -->
 
   <div *ngIf="true" (click)="cadastrarLogomarca()" class="apresentar-logomarca-plataforma">
-    <img [src]="logoUrl" alt="Logomarca" *ngIf="logoUrl"/>
-    <img src="../../../../assets/profile.png" alt="Logomarca" *ngIf="!logoUrl"/>
+    <ion-avatar>
+      <img [src]="logoUrl" alt="Logomarca" *ngIf="logoUrl" />
+      <img src="../../../../assets/profile.png" alt="Logomarca" *ngIf="!logoUrl" />
+    </ion-avatar>
     <ion-icon name="camera-outline"></ion-icon>
   </div>
 
