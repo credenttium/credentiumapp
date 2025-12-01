@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IonAvatar, IonContent, IonFab, IonFabButton, IonHeader, IonIcon, IonItem, IonItemOption, IonItemOptions, IonItemSliding, IonLabel, IonList, IonTitle, IonToolbar } from '@ionic/angular/standalone';
 import { addIcons } from "ionicons";
-import { add, createOutline, pencilOutline, trashOutline } from 'ionicons/icons';
+import { add, chevronForwardOutline, createOutline, pencilOutline, trashOutline } from 'ionicons/icons';
 import { SupabaseService } from 'src/app/service/supabase.service';
 import { CredencialService } from './../../service/credencial.service';
 
@@ -26,7 +26,7 @@ export class CredencialPage implements OnInit {
   private router = inject(Router);
 
   constructor() {
-    addIcons({ createOutline, trashOutline, add, pencilOutline });
+    addIcons({chevronForwardOutline,createOutline,trashOutline,add,pencilOutline});
   }
 
   ngOnInit() {}
@@ -41,7 +41,6 @@ export class CredencialPage implements OnInit {
     this.credencialService.findAll().subscribe({
       next: (response) => {
         this.credencialArray = response;
-        console.log(this.credencialArray);
       },
       error: (request) => { }
     });

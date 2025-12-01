@@ -19,5 +19,9 @@ export class CredencialService {
   public findAll(): Observable<any[]> {
     return this.httpClient.get<any[]>(this.URL_API);
   }
+
+  public buscarPorId(codigoCredencial: number): Observable<any> {
+    return this.httpClient.get<any>(`${this.URL_API}/${codigoCredencial}`);
+  }
   
 }

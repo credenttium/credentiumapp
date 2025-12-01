@@ -73,7 +73,6 @@ export class CredencialCadastrarPage implements OnInit {
   //     this.limparFormulario();
   //     this.redirecionarTelaCredencialDetalhar();
   //   } else {
-  //     console.log('Formulário inválido');
   //   }
   // }
 
@@ -94,8 +93,6 @@ export class CredencialCadastrarPage implements OnInit {
     };
 
     // const credencialModel: CredencialModel = this.credencialCadastrarFormulario.value as CredencialModel;
-
-    console.log(credencialModel);
 
     this.credencialService.cadastrarCredencial(credencialModel).subscribe({
       next: (response: any) => {

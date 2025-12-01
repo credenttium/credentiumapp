@@ -25,3 +25,26 @@ ion-button {
   text-transform: initial;
   font-weight: bold;
 }
+
+ion-item-option {
+  border-radius: 12px !important;
+  margin: 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+ion-item-option[color="primary"] {
+  --background: linear-gradient(135deg, #4e8cff, #3e6bff);
+}
+
+ion-item-option[color="danger"] {
+  --background: linear-gradient(135deg, #ff4e4e, #ff1f1f);
+}
+
+ion-item-option:hover {
+  filter: brightness(1.1);
+  transform: scale(1.05);
+  transition: 0.2s;
+}

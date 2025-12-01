@@ -58,7 +58,6 @@ export class PlataformaCadastrarPage implements OnInit {
   }
 
   public async create() {
-    console.log(this.plataformaCadastrarFormulario.value);
     if (!this.plataformaCadastrarFormulario.valid) {
       return;
     }
@@ -80,7 +79,6 @@ export class PlataformaCadastrarPage implements OnInit {
 
     this.plataformaService.create(formData).subscribe({
       next: (response) => {
-        console.log("Salvo com sucesso:", response);
         this.loadingController.dismiss();
         this.apresentarMensagemSucesso();
         this.plataformaCadastrarFormulario.reset();
@@ -146,7 +144,7 @@ export class PlataformaCadastrarPage implements OnInit {
       this.logoLocalPath = nomeArquivo;
 
     } catch (error) {
-      console.log("Erro ao escolher imagem:", error);
+      console.error("Erro ao escolher imagem:", error);
     }
   }
 
