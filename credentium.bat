@@ -1,1 +1,1 @@
-npx cap run android --target=Medium_Phone_API_36.1  --no-sync
+npx npm run build --  --configuration=production && npx cap copy android && npx cap run android --target=Medium_Phone_API_36.1  --no-sync
